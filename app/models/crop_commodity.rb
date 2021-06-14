@@ -1,0 +1,2 @@
+class CropCommodity < ApplicationRecord
+end

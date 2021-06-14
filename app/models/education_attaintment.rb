@@ -1,0 +1,2 @@
+class EducationAttaintment < ApplicationRecord
+end
