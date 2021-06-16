@@ -19,17 +19,6 @@ default: &default
   host: 127.0.0.1
   port: 3306
 
-# default: &default
-#   adapter: mysql2
-#   encoding: utf8mb4
-#   database: databasesystemdb
-#   username: farmjuan@databasesystemdb
-#   password: b@haykubo2021
-#   host: databasesystemdb.mysql.database.azure.com
-#   port: 3306
-#   pool: 5
-#   sslca: ssl.pem
-
 meshDb:
   adapter: mysql2
   encoding: utf8mb4

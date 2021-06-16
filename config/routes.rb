@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :user, only: [:index, :create] do
       collection do
         post 'sign_in'
+        get 'get_users'
       end
     end
     resources :enrollment, only: [:index, :create, :show] do

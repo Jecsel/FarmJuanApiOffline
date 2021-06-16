@@ -3,7 +3,13 @@ class V1::UserController < ApplicationController
 
     def index
       @users = User.all
-      render json: {message:"this is user"}
+      json_response(200, 'User records')
+    end
+
+    def get_users
+      @users = User.all
+      p @users
+      json_response(200, 'User records')
     end
 
     def sign_in
