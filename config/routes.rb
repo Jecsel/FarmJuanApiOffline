@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root 'application#hello'
   get "ping", to:"application#ping"
 
-  #BOOKING
   namespace :v1 do
     resources :user, only: [:index, :create] do
       collection do

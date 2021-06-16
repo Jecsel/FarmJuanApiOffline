@@ -3,7 +3,7 @@ class V1::UserController < ApplicationController
 
     def index
       @users = User.all
-      render json: @users
+      render json: {message:"this is user"}
     end
 
     def sign_in
