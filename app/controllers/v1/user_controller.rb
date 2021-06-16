@@ -1,6 +1,10 @@
 class V1::UserController < ApplicationController
     before_action :must_be_authenticated, only:[:authenticate]
 
+    def index
+      @users = User.all
+    end
+
     def sign_in
       user = User.find_by_username user_params[:username]
       if user.present?
