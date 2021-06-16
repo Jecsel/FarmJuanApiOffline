@@ -6,13 +6,18 @@ ruby '2.6.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 gem 'mysql2'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
-gem 'jbuilder', '~> 2.5'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'jbuilder', '~> 2.7'
+gem 'bootsnap', '>= 1.4.2', require: false
+
+gem 'rack-cors'
+gem 'kaminari'
+gem 'jwt'
+gem 'search_cop'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
