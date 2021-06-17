@@ -52,7 +52,7 @@ class V1::UserController < ApplicationController
       end
     end
   
-    def index
+    # def index
       # if is_permitted?(1,1)
       #   @user = User.get_list_by_role(@current_user.user_role.user_group.id)
       #   @user_group = UserGroup.get_by_role(@current_user.user_role.user_group.id)
@@ -60,7 +60,7 @@ class V1::UserController < ApplicationController
       # else
       #   render json: :forbidden, status:403
       # end
-    end
+    # end
   
     def edit_user
       @user = User.find edit_params[:id]
