@@ -3,13 +3,15 @@ class V1::UserController < ApplicationController
 
     def index
       @users = User.all
-      json_response(200, 'User records')
+      # render json: {status: 200, message:'User records'},status: :ok
+      # json_response(200, 'User records')
+      render 'index.json.jbuilder'
     end
 
     def get_users
       @users = User.all
-      p @users
-      json_response(200, 'User records')
+      # json_response(200, 'User records')
+      render 'get_users.json.jbuilder'
     end
 
     def sign_in
