@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
   def hello
-    render html: "Hello, world from Azure App Service on Linux! Render User json"
-    # render file: 'public/index.html'
+    # render html: "Hello, world from Azure App Service on Linux! Render User json"
+    render file: 'public/index.html'
   end
 
   def ping
-    render json: {message:"Farm Juan Api is up!!!"}
+    render json: {message:"Farm Juan Api is up yeaahhhh"}
   end
 
   def must_be_authenticated
