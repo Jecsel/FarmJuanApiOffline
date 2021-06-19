@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  SECRET_KEY = Rails.application.secrets.secret_key_base.to_s
   def hello
     # render html: "Hello, world from Azure App Service on Linux! Render User json"
     render file: 'public/index.html'
