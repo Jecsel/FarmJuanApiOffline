@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_154632) do
+ActiveRecord::Schema.define(version: 2021_06_26_053200) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -134,6 +134,18 @@ ActiveRecord::Schema.define(version: 2021_06_14_154632) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "main_livelihood_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "main_livelihood_id"
+    t.bigint "farmers_activity_id"
+    t.bigint "farmers_activity_type_id"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["farmers_activity_id"], name: "index_main_livelihood_types_on_farmers_activity_id"
+    t.index ["farmers_activity_type_id"], name: "index_main_livelihood_types_on_farmers_activity_type_id"
+    t.index ["main_livelihood_id"], name: "index_main_livelihood_types_on_main_livelihood_id"
+  end
+
   create_table "main_livelihoods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "profile_id"
     t.boolean "is_farmer", default: false
@@ -231,6 +243,9 @@ ActiveRecord::Schema.define(version: 2021_06_14_154632) do
   add_foreign_key "farm_parcels", "municipalities"
   add_foreign_key "farm_parcels", "profiles"
   add_foreign_key "farmers_activity_types", "farmers_activities"
+  add_foreign_key "main_livelihood_types", "farmers_activities"
+  add_foreign_key "main_livelihood_types", "farmers_activity_types"
+  add_foreign_key "main_livelihood_types", "main_livelihoods"
   add_foreign_key "main_livelihoods", "profiles"
   add_foreign_key "municipalities", "provinces"
   add_foreign_key "provinces", "regions"

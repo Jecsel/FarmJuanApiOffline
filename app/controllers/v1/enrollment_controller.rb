@@ -2,6 +2,7 @@ class V1::EnrollmentController < ApplicationController
     before_action :must_be_authenticated
 
     def index
+        p 'index'
         @gender = Gender.all
         @province = Province.all
         @region = Region.all
@@ -12,6 +13,7 @@ class V1::EnrollmentController < ApplicationController
         @farm_type = FarmType.all
         @animal_type = AnimalType.all
         @farm_activity = FarmersActivity.all
+        render 'index.json.jbuilder'
     end
 
     def show

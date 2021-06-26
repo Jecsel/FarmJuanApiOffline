@@ -15,13 +15,16 @@ class V1::UserController < ApplicationController
       user = User.find_by_username user_params[:username]
       if user.present?
         if user.valid_password? user_params[:password]
+          p 'update'
           # if user.is_active
           #   if !user.first_login
               user.user_token = Generator.new().generate_alpha_numeric
               user.save
               
               bearer_token = encode({user_id: user.id,secret: user.user_token})
-              render json: {token: bearer_token}
+              # render json: {token: bearer_token}, status: :forbidden
+              json_response(200, bearer_token)
+              p bearer_token
           #   else
           #     set_new_pass(user)
           #   end

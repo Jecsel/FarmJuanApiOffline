@@ -10,15 +10,18 @@ class ApplicationController < ActionController::Base
   end
 
   def must_be_authenticated
-      token = request.headers['x-access-token']
-      error_403 if token.blank? || token == 0 || token == ""
+    p 'authenticating'
+    p request.headers['x-access-token']
+    token = request.headers['x-access-token']
+    error_403 if token.blank? || token == 0 || token == ""
 
-      data = decode token
+    data = decode token
 
-      @current_user = User.find(data["user_id"])
-      error_403 if @current_user.nil?
-      error_403 if @current_user.user_token != data["secret"]
-      @current_user    
+    @current_user = User.find(data["user_id"])
+    error_403 if @current_user.nil?
+    error_403 if @current_user.user_token != data["secret"]
+    @current_user 
+    p 'It is authenticated'   
   end
 
   def error_403
@@ -45,6 +48,6 @@ class ApplicationController < ActionController::Base
     
   end
   def json_response a,b
-  render json: {status:a,message:b},status: :ok
+    render json: {status:a,message:b},status: :ok
   end
 end

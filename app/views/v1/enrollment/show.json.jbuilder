@@ -27,7 +27,7 @@ json.profile do
     json.pwd                                    @profile.pwd
     json.four_p_beneficiary                     @profile.four_p_beneficiary
     json.with_government_id                     @profile.with_government_id
-    json.government_id                          @profile.government_id
+    json.government_number                      @profile.government_id
     json.member_association                     @profile.member_association
     json.association_number                     @profile.association_id
     json.indigenous_group                       @profile.indigenous_group
@@ -37,14 +37,14 @@ json.profile do
     json.agrarian                               @profile.agrarian ? 'YES' : 'NO'
     json.ref_number                             @profile.ref_number
     json.place_of_birth                         @profile.place_of_birth
-    json.avatar                                 @profile.avatar.present? ? polymorphic_url(@profile.avatar) : ''
+    # json.avatar                                 @profile.avatar.nil? ? polymorphic_url(@profile.avatar) : ''
 end
 json.livelihood do
     if @main_livelihood.present?
         json.extract! @main_livelihood, :profile_id, :farming_income, :non_farming_income
-        json.farmers_activity_name              @main_livelihood.main_livelihood_type.farmers_activity.name
-        json.farmers_activity_type_description  @main_livelihood.main_livelihood_type.farmers_activity_type.name
-        json.farmers_activity_description       @main_livelihood.main_livelihood_type.description
+        json.farmers_activity_name              !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.farmers_activity.name : ''
+        json.farmers_activity_type_description  !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.farmers_activity_type.name : ''
+        json.farmers_activity_description       !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.description : ''
     end
 end
 json.parcel do
