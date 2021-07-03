@@ -19,6 +19,7 @@ class V1::EnrollmentController < ApplicationController
     def show
         @profile = Profile.find params[:id]
         @main_livelihood = @profile.main_livelihood
+        @main_livelihood_type = @main_livelihood.main_livelihood_type
         @farm_parcel = @profile.farm_parcel
     end
 
@@ -36,13 +37,10 @@ class V1::EnrollmentController < ApplicationController
 
     def create
         if !create_params[:profile_id].nil?
-            p "with id"
             farmer = Profile.find create_params[:profile_id]
             profile = farmer
         else
-            p "no id"
             profile = Profile.new
-            p profile
         end
         # profile = farmer.present? ? farmer : Profile.new
         address = profile.address.present? ? profile.address : profile.build_address
@@ -114,12 +112,16 @@ class V1::EnrollmentController < ApplicationController
 
     def create_livelihoods
 
-        main = livelihood_params[:main_livehood_id].to_i > 0 ? MainLivelihood.where(id: livelihood_params[:main_livehood_id]).last : MainLivelihood.new
+        main = livelihood_params[:id].to_i > 0 ? MainLivelihood.where(id: livelihood_params[:id]).last : MainLivelihood.new
+        p livelihood_params[:id].to_i
         main.profile_id                             = livelihood_params[:profile_id]
         main.farming_income                         = livelihood_params[:farming]
         main.non_farming_income                     = livelihood_params[:non_farming]
-
+        
         if main.save
+            if !main.main_livelihood_type.nil?
+                main.main_livelihood_type.delete_all
+            end
             livelihood_params[:livelihood_type_data].each do |a|
     
                 main_type = MainLivelihoodType.new
@@ -206,6 +208,6 @@ class V1::EnrollmentController < ApplicationController
     def livelihood_params
         params
             .require(:livelihood)
-            .permit(:activity_id, :farming, :non_farming, :profile_id, :main_livehood_id, :livelihood_type_data => [:activity_type_id, :description])
+            .permit(:id, :activity_id, :farming, :non_farming, :profile_id, :main_livehood_id, :livelihood_type_data => [:activity_type_id, :description])
     end
 end

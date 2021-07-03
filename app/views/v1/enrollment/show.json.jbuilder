@@ -1,4 +1,5 @@
 json.profile do
+    json.profile_id                             @profile.id
     json.user_id                                @profile.user_id
     json.first_name                             @profile.first_name
     json.middle_name                            @profile.middle_name
@@ -41,10 +42,13 @@ json.profile do
 end
 json.livelihood do
     if @main_livelihood.present?
-        json.extract! @main_livelihood, :profile_id, :farming_income, :non_farming_income
-        json.farmers_activity_name              !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.farmers_activity.name : ''
-        json.farmers_activity_type_description  !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.farmers_activity_type.name : ''
-        json.farmers_activity_description       !@main_livelihood.main_livelihood_type.nil? ? @main_livelihood.main_livelihood_type.description : ''
+        json.extract! @main_livelihood, :id, :is_farmer,  :is_farmer_worker, :is_fisher_folk, :profile_id, :farming_income, :non_farming_income
+        json.livelihood_type  @main_livelihood.main_livelihood_type.each do |type|
+            json.id                                      type.id
+            json.farmers_activity_type_id                type.farmers_activity_type_id
+            json.farmers_activity_id                     type.farmers_activity_id
+            json.farmers_activity_type_description       type.description
+        end
     end
 end
 json.parcel do
