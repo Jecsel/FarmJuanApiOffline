@@ -1,2 +1,0 @@
-class CropCommodity < ApplicationRecord
-end

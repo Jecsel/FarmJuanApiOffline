@@ -13,10 +13,11 @@
 default: &default
   adapter: mysql2
   encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: 5
+  database: MeshliumDB
   username: root
   password: elite
-  host: 127.0.0.1
+  host: 10.10.10.1
   port: 3306
 
 meshDb:
@@ -32,16 +33,17 @@ meshDb:
 
 development:
   <<: *default
-  database: databasesystemdb_development
+  database: MeshliumDB
 test:
   <<: *default
-  database: databasesystemdb_test
+  database: MeshliumDB_test
+
 production:
   <<: *default
-  database: databasesystemdb
-  username: farmjuan@databasesystemdb
-  password: b@haykubo2021
-  host: databasesystemdb.mysql.database.azure.com
+  database: MeshliumDB_prod
+  username: sslroot
+  password: MeshliumDB
+  host: localhost
 
 # default: &default
 #   adapter: mysql2
