@@ -1,4 +1,4 @@
-class User < ApplicationRecord
+class User < ActiveRecord::Base
     before_create :encrypt_password
     has_many :profile
     # has_one :profile, :dependent => :destroy

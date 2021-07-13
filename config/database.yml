@@ -12,17 +12,17 @@
 
 default: &default
   adapter: mysql2
-  encoding: utf8mb4
+  encoding: utf8
   pool: 5
-  database: MeshliumDB
-  username: root
-  password: elite
+  username: sslroot
+  password: libelium2007
   host: 10.10.10.1
   port: 3306
+  socket: /tmp/mysql.sock
 
 meshDb:
   adapter: mysql2
-  encoding: utf8mb4
+  encoding: utf
   pool: 5
   host: 10.10.10.1
   port: 3306
@@ -36,14 +36,11 @@ development:
   database: MeshliumDB
 test:
   <<: *default
-  database: MeshliumDB_test
+  database: MeshliumDB
 
 production:
   <<: *default
-  database: MeshliumDB_prod
-  username: sslroot
   password: MeshliumDB
-  host: localhost
 
 # default: &default
 #   adapter: mysql2

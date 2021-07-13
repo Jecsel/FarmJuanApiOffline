@@ -10,222 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_26_053200) do
+ActiveRecord::Schema.define(version: 2021_06_14_153402) do
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  create_table "bluetoothData", primary_key: "ID_frame", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.timestamp "TimeStamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "MAC", limit: 17, null: false
+    t.string "ID", limit: 30, null: false, collation: "utf8_general_ci"
+    t.string "RSSI", limit: 4, null: false, collation: "utf8_general_ci"
+    t.string "Vendor", limit: 150, null: false, collation: "utf8_general_ci"
+    t.string "cod", limit: 20, null: false
+    t.bigint "sync", default: 0, null: false, unsigned: true
+    t.string "MeshliumID", limit: 150, default: "meshlium", null: false
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  create_table "currentSensors", primary_key: "OBJECTID", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "waspmoteid", null: false
+    t.string "name", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.string "description", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.string "sensorReading", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.string "sensorType", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.float "sensorValue", limit: 53
+    t.string "extendedValue", limit: 45, collation: "latin1_swedish_ci"
+    t.string "units", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.string "timestamp", limit: 45, null: false, collation: "latin1_swedish_ci"
+    t.float "x", limit: 53, null: false
+    t.float "y", limit: 53, null: false
   end
 
-  create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "profile_id"
-    t.bigint "region_id"
-    t.bigint "province_id"
-    t.bigint "municipality_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["municipality_id"], name: "index_addresses_on_municipality_id"
-    t.index ["profile_id"], name: "index_addresses_on_profile_id"
-    t.index ["province_id"], name: "index_addresses_on_province_id"
-    t.index ["region_id"], name: "index_addresses_on_region_id"
+  create_table "encryptionData", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "waspmote_id", limit: 100, null: false
+    t.string "private_aes", limit: 512
+    t.string "public_rsa", limit: 512
+    t.string "modulus_rsa", limit: 512
+    t.index ["id"], name: "id", unique: true
   end
 
-  create_table "animal_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "civil_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "crop_commodities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "education_attaintments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "farm_parcel_descriptions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "farm_parcel_id", null: false
-    t.boolean "is_registered_owner"
-    t.boolean "is_other"
-    t.string "other_spec"
-    t.boolean "is_tenant"
-    t.string "tenant_spec"
-    t.boolean "is_lessee"
-    t.string "lessee_spec"
-    t.integer "farm_area"
-    t.bigint "crop_commodity_id"
-    t.string "head_count"
-    t.bigint "farm_type_id"
-    t.integer "organic_practioner"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["crop_commodity_id"], name: "index_farm_parcel_descriptions_on_crop_commodity_id"
-    t.index ["farm_parcel_id"], name: "index_farm_parcel_descriptions_on_farm_parcel_id"
-    t.index ["farm_type_id"], name: "index_farm_parcel_descriptions_on_farm_type_id"
-  end
-
-  create_table "farm_parcels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "profile_id"
-    t.bigint "municipality_id"
-    t.string "brgy"
-    t.integer "total_farm_area"
-    t.integer "lot_no"
-    t.string "ownership_document_no"
-    t.binary "document_file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["municipality_id"], name: "index_farm_parcels_on_municipality_id"
-    t.index ["profile_id"], name: "index_farm_parcels_on_profile_id"
-  end
-
-  create_table "farm_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "farmers_activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "title"
-    t.string "subtitle"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "farmers_activity_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "farmers_activity_id"
-    t.string "name"
-    t.boolean "with_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["farmers_activity_id"], name: "index_farmers_activity_types_on_farmers_activity_id"
-  end
-
-  create_table "genders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "main_livelihood_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "main_livelihood_id"
-    t.bigint "farmers_activity_id"
-    t.bigint "farmers_activity_type_id"
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["farmers_activity_id"], name: "index_main_livelihood_types_on_farmers_activity_id"
-    t.index ["farmers_activity_type_id"], name: "index_main_livelihood_types_on_farmers_activity_type_id"
-    t.index ["main_livelihood_id"], name: "index_main_livelihood_types_on_main_livelihood_id"
-  end
-
-  create_table "main_livelihoods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "profile_id"
-    t.boolean "is_farmer", default: false
-    t.boolean "is_farmer_worker", default: false
-    t.boolean "is_fisher_folk", default: false
-    t.string "farming_income"
-    t.string "non_farming_income"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["profile_id"], name: "index_main_livelihoods_on_profile_id"
-  end
-
-  create_table "municipalities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "province_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["province_id"], name: "index_municipalities_on_province_id"
-  end
-
-  create_table "profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "first_name"
-    t.string "middle_name"
-    t.string "last_name"
-    t.string "extension_name"
-    t.bigint "gender_id", null: false
-    t.string "house"
-    t.string "street"
-    t.string "barangay"
-    t.string "user_contact_number"
-    t.date "dob"
-    t.string "place_of_birth"
-    t.string "religion"
-    t.bigint "civil_status_id", null: false
-    t.bigint "education_attaintment_id", null: false
-    t.string "spouse_name"
-    t.string "mother_name"
-    t.boolean "household_head"
-    t.string "household_name"
-    t.string "household_head_relationship"
-    t.string "numbers_household_member"
-    t.string "numbers_of_male"
-    t.string "numbers_of_female"
-    t.boolean "pwd", default: false
-    t.boolean "four_p_beneficiary", default: false
-    t.boolean "agrarian", default: false
-    t.boolean "with_government_id", default: false
-    t.string "government_id"
-    t.boolean "member_association", default: false
-    t.string "association_id"
-    t.boolean "indigenous_group", default: false
-    t.string "indigenous_id"
-    t.string "emergency_person_name"
-    t.string "emergency_person_number"
-    t.binary "photo"
-    t.string "ref_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["civil_status_id"], name: "index_profiles_on_civil_status_id"
-    t.index ["education_attaintment_id"], name: "index_profiles_on_education_attaintment_id"
-    t.index ["gender_id"], name: "index_profiles_on_gender_id"
-    t.index ["user_id"], name: "index_profiles_on_user_id"
-  end
-
-  create_table "provinces", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "region_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["region_id"], name: "index_provinces_on_region_id"
-  end
-
-  create_table "regions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "farmers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "username"
     t.string "password"
     t.string "user_token"
@@ -235,18 +55,115 @@ ActiveRecord::Schema.define(version: 2021_06_26_053200) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "addresses", "municipalities"
-  add_foreign_key "addresses", "profiles"
-  add_foreign_key "addresses", "provinces"
-  add_foreign_key "addresses", "regions"
-  add_foreign_key "farm_parcels", "municipalities"
-  add_foreign_key "farm_parcels", "profiles"
-  add_foreign_key "farmers_activity_types", "farmers_activities"
-  add_foreign_key "main_livelihood_types", "farmers_activities"
-  add_foreign_key "main_livelihood_types", "farmers_activity_types"
-  add_foreign_key "main_livelihood_types", "main_livelihoods"
-  add_foreign_key "main_livelihoods", "profiles"
-  add_foreign_key "municipalities", "provinces"
-  add_foreign_key "provinces", "regions"
+  create_table "gpsData", primary_key: "ID_frame", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.timestamp "TimeStamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "date", null: false
+    t.string "longitude", limit: 20, null: false
+    t.string "latitude", limit: 20, null: false
+    t.string "altitude", limit: 20, null: false
+    t.integer "satellites", null: false
+    t.string "speed", limit: 20, null: false
+    t.bigint "sync", default: 0, null: false, unsigned: true
+    t.string "MeshliumID", limit: 150, default: "meshlium", null: false
+  end
+
+  create_table "last_data", primary_key: ["id_wasp", "sensor"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "id_wasp", limit: 45, default: "id_wasp", null: false
+    t.string "sensor", limit: 30, default: "sensor", null: false
+    t.string "value", limit: 45, default: "0", null: false
+    t.timestamp "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
+  create_table "login", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "user", limit: 75, null: false
+    t.string "passwd", limit: 80, null: false
+  end
+
+  create_table "meshlium", primary_key: "objectid", id: :integer, default: nil, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name", limit: 15, null: false
+    t.string "description", limit: 100, null: false
+    t.float "x", limit: 53, null: false
+    t.float "y", limit: 53, null: false
+    t.integer "spatialReference", null: false
+    t.timestamp "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
+  create_table "sensorCloud", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.timestamp "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "MeshliumID", limit: 150, default: "local", null: false
+    t.bigint "sync", default: 0, null: false, unsigned: true
+    t.string "id_node", limit: 22
+    t.integer "frame_type"
+    t.string "raw", limit: 250, default: "noraw", null: false
+    t.index ["id_node"], name: "id_node"
+    t.index ["timestamp"], name: "time"
+  end
+
+  create_table "sensorParser", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "id_wasp", limit: 16
+    t.string "id_secret", limit: 22
+    t.integer "frame_type"
+    t.integer "frame_number"
+    t.string "sensor", limit: 16
+    t.string "value", limit: 50
+    t.timestamp "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "sync", default: 0, null: false, unsigned: true
+    t.string "raw", limit: 100, default: "noraw", null: false
+    t.integer "parser_type", limit: 1, default: 0, null: false
+    t.string "MeshliumID", limit: 150, default: "local", null: false
+    t.index ["id_wasp", "sensor"], name: "tw"
+    t.index ["id_wasp", "timestamp"], name: "visualizer"
+    t.index ["id_wasp"], name: "id_wasp"
+    t.index ["timestamp"], name: "time"
+  end
+
+  create_table "sensors", primary_key: ["id", "list"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "id", null: false
+    t.string "name", limit: 45, null: false
+    t.string "description", limit: 45, null: false
+    t.string "id_ascii", limit: 45, null: false
+    t.string "units", limit: 45, null: false
+    t.integer "value", null: false
+    t.boolean "vis", default: false, null: false, unsigned: true
+    t.integer "fields", null: false
+    t.string "list", limit: 45, default: "", null: false
+  end
+
+  create_table "tokens", primary_key: "idtokens", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "token", limit: 45, null: false
+    t.string "expires", limit: 45, null: false
+    t.string "referer", limit: 45
+    t.string "ip", limit: 45
+  end
+
+  create_table "users", primary_key: "idusers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "user", limit: 45, null: false
+    t.string "passwd", limit: 45, null: false
+  end
+
+  create_table "waspmote", primary_key: "OBJECTID", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name", limit: 45, null: false
+    t.string "description", limit: 45, null: false
+    t.float "x", limit: 53, null: false
+    t.float "y", limit: 53, null: false
+    t.float "spatialReference", limit: 53, null: false
+    t.timestamp "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "sensorCount", null: false
+    t.string "meshliumid", limit: 45, null: false
+  end
+
+  create_table "wifiScan", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "ID_frame", null: false, auto_increment: true
+    t.timestamp "TimeStamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "MAC", limit: 17, null: false
+    t.string "SSID", limit: 32, null: false
+    t.string "RSSI", limit: 4, null: false, collation: "utf8_general_ci"
+    t.string "Vendor", limit: 150, null: false
+    t.string "Type", limit: 10, null: false
+    t.string "AP", limit: 17, null: false
+    t.bigint "sync", default: 0, null: false, unsigned: true
+    t.string "MeshliumID", limit: 150, null: false
+    t.index ["ID_frame"], name: "ID_frame"
+  end
+
 end

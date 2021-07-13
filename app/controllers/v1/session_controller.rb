@@ -11,10 +11,10 @@ class V1::UserController < ApplicationController
       render 'get_users.json.jbuilder'
     end
 
-    def sign_in
+    def login
       user = User.find_by_user user_params[:username]
       if user.present?
-        if user.valid_password? user_params[:password]
+        if user.valid_passwd? user_params[:password]
           user.user_token = Generator.new().generate_alpha_numeric
           user.save!
           bearer_token = encode({user_id: user.id,secret: user.user_token})

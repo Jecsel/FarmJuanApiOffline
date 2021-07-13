@@ -10,7 +10,8 @@ namespace :meshlium do
       :password => "libelium2007",
       :database => "MeshliumDB"
     )
-
+    p 'Connecting . . .'
+    p connection
     @connection = ActiveRecord::Base.connection
     p "=== connected ==="
     result = @connection.exec_query('SELECT * FROM sensors')
